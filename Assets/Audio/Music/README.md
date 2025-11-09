@@ -5,11 +5,13 @@ This folder contains background music and theme songs for Pimpins Empire.
 ## Planned Music Tracks
 
 ### Main Themes
+
 - **Empire_Main_Theme.mp3** (TODO) - Main menu and lobby music
 - **Diamond_Heist_Theme.mp3** (TODO) - Story mode background music
 - **Victory_Fanfare.mp3** (TODO) - Win celebration music
 
 ### Ambient Tracks
+
 - **Casino_Ambience.mp3** (TODO) - Background atmosphere for card games
 - **Underground_Vibe.mp3** (TODO) - Music for underground gaming scenes
 - **Tension_Build.mp3** (TODO) - Suspenseful music for high-stakes moments

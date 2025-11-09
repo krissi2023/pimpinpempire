@@ -5,11 +5,13 @@ This folder contains all card-related visual assets for Pimpins Empire card game
 ## Standard Playing Cards
 
 ### Card Backs
+
 - **empire_card_back.png** (TODO) - Custom empire-themed card back design
 - **diamond_card_back.png** (TODO) - Diamond character themed back
 - **premium_card_back.png** (TODO) - Special edition card back
 
 ### Card Faces
+
 - **cards_standard_deck.png** (TODO) - Full 52-card sprite sheet
 - **cards_ace_special.png** (TODO) - Special ace card designs
 - **cards_face_empire.png** (TODO) - Custom face cards with empire characters
@@ -17,10 +19,12 @@ This folder contains all card-related visual assets for Pimpins Empire card game
 ## Special Game Cards
 
 ### KnK Draw Cards
+
 - **knk_special_cards.png** (TODO) - Special cards for KnK Draw game
 - **knk_power_cards.png** (TODO) - Power-up cards
 
 ### Empire Cards
+
 - **empire_action_cards.png** (TODO) - Action cards for empire building
 - **empire_resource_cards.png** (TODO) - Resource management cards
 
