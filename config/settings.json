@@ -1,0 +1,26 @@
+{
+  "appName": "Pimpinpempire",
+  "version": "1.0.0",
+  "environment": "development",
+  "settings": {
+    "theme": "dark",
+    "language": "en",
+    "animations": true,
+    "notifications": true
+  },
+  "features": {
+    "userAuthentication": false,
+    "realTimeUpdates": false,
+    "offlineMode": false
+  },
+  "api": {
+    "baseUrl": "https://api.pimpinpempire.com",
+    "version": "v1",
+    "timeout": 30000
+  },
+  "ui": {
+    "showWelcomeMessage": true,
+    "autoSave": true,
+    "confirmActions": true
+  }
+}

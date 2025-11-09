@@ -1,0 +1,29 @@
+{
+  "name": "pimpinpempire",
+  "version": "1.0.0",
+  "description": "A modern web application for building your digital empire",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "serve": "npx serve .",
+    "build": "echo 'No build process required for static site'",
+    "test": "echo 'No tests specified yet'"
+  },
+  "keywords": [
+    "empire",
+    "web-app",
+    "javascript",
+    "html5",
+    "css3"
+  ],
+  "author": "Kristy",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/krissi2023/pimpinpempire.git"
+  },
+  "homepage": "https://krissi2023.github.io/pimpinpempire"
+}
