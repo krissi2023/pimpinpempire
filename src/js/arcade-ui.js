@@ -14,6 +14,9 @@ class ArcadeUI {
         this.isLoading = true;
         this.audioEnabled = true;
         
+        // Initialize audio system
+        this.audioManager = new AudioManager();
+        
         // Urban street language for different events
         this.streetTalk = {
             welcome: [
@@ -56,8 +59,12 @@ class ArcadeUI {
         this.init();
     }
 
-    init() {
+    async init() {
         console.log('🎮 Initializing the dopest arcade UI in the city...');
+        
+        // Initialize audio system
+        await this.audioManager.initialize();
+        
         this.setupEventListeners();
         this.initializePlayer();
         this.handleLoadingScreen();
@@ -66,6 +73,8 @@ class ArcadeUI {
         // Show welcome message after loading
         setTimeout(() => {
             this.showStreetMessage(this.getRandomStreetTalk('welcome'), 'success');
+            // Start main theme music
+            this.audioManager.playMusic('main_theme');
         }, 2000);
     }
 
@@ -300,6 +309,10 @@ class ArcadeUI {
             this.activeGame = blackjackGame;
             this.showGameInterface('Blackjack Royalty - Beat the House');
             this.renderBlackjackUI();
+            
+            // Play blackjack theme and card deal sound
+            this.audioManager.playMusic('blackjack_theme');
+            this.audioManager.playSFX('card_deal', 0.8);
         } else {
             this.showStreetMessage(`Yo, ${success.message}. Check your bankroll and try again!`, 'error');
         }
@@ -1000,6 +1013,10 @@ class ArcadeUI {
         this.activeGame = slotsGame;
         this.showGameInterface('Diamond Heist Slots - Hit the Jackpot');
         this.renderSlotsUI(betAmount);
+        
+        // Play slots theme music
+        this.audioManager.playMusic('slots_theme');
+        this.audioManager.playSFX('menu_open', 0.6);
     }
 
     renderHighLowUI() {
@@ -1626,6 +1643,9 @@ class ArcadeUI {
                 return;
             }
             
+            // Play spin sound
+            this.audioManager.playSFX('reel_spin', 1.0);
+            
             // Start spinning animation
             isSpinning = true;
             spinBtn.classList.add('spinning');
@@ -1641,8 +1661,16 @@ class ArcadeUI {
             const result = this.activeGame.spin(this.currentPlayer, currentBet);
             
             if (result.success) {
+                // Play reel stop sound
+                this.audioManager.playSFX('reel_stop', 0.8);
+                
                 // Update reels with result
                 this.displaySlotResult(result);
+                
+                // Play win celebration audio if won
+                if (result.totalWinnings > 0) {
+                    this.audioManager.playWinCelebration(result.totalWinnings, currentBet);
+                }
                 
                 // Update UI displays
                 currentBetDisplay.textContent = `$${currentBet}`;
@@ -2108,17 +2136,20 @@ class ArcadeUI {
     }
 
     toggleAudio() {
-        this.audioEnabled = !this.audioEnabled;
+        const isMuted = this.audioManager.toggleMute();
+        
         const audioInfo = document.querySelector('.audio-info');
         const audioToggle = document.getElementById('audio-toggle');
         
         if (audioInfo) {
-            audioInfo.textContent = `Vibes: ${this.audioEnabled ? 'ON' : 'OFF'}`;
+            audioInfo.textContent = `Vibes: ${isMuted ? 'OFF' : 'ON'}`;
         }
         
         if (audioToggle) {
-            audioToggle.textContent = this.audioEnabled ? '🎵' : '🔇';
+            audioToggle.textContent = isMuted ? '🔇' : '🎵';
         }
+        
+        this.showStreetMessage(isMuted ? 'Audio muted, keeping it quiet!' : 'Audio on! Time to feel those vibes!', 'info');
     }
 
     toggleHelpModal() {
@@ -2134,9 +2165,7 @@ class ArcadeUI {
     }
 
     playHoverSound() {
-        if (!this.audioEnabled) return;
-        // Placeholder for hover sound effect
-        console.log('🎵 Hover sound effect');
+        this.audioManager.playSFX('button_hover', 0.5);
     }
 
     showGamePreview(gameCard) {
