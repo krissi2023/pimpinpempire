@@ -33,7 +33,7 @@ This document contains the formal rule sets for all table games in Pimpins Empir
 
 ## Template for New Table Games
 
-```
+```markdown
 ### Game Name
 - **Players:** [number]
 - **Duration:** [time estimate]
