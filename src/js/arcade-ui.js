@@ -276,7 +276,10 @@ class ArcadeUI {
                 this.startBlackjackGame();
                 break;
             case 'high-low':
-                this.showComingSoon('High-Low Empire');
+                this.startHighLowGame();
+                break;
+            case 'slots':
+                this.startSlotsGame();
                 break;
             default:
                 this.showComingSoon('This Game');
@@ -963,28 +966,787 @@ class ArcadeUI {
         });
     }
 
-    getBetAmount(gameName, minBet, maxBet) {
-        const defaultBet = Math.min(50, maxBet);
-        const userInput = prompt(
-            `${gameName}\n\nPlace your bet, player!\n\nMinimum: $${minBet}\nMaximum: $${maxBet}\nYour bankroll: $${this.currentPlayer.empire.resources}\n\nEnter bet amount:`,
-            defaultBet
-        );
+    }
+    }
+
+    startHighLowGame() {
+        // Initialize the game
+        const highLowGame = new HighLowGame();
         
-        if (userInput === null) return null; // User cancelled
+        // Get bet amount from user
+        const betAmount = this.getBetAmount('High-Low Empire', highLowGame.minBet, highLowGame.maxBet);
+        if (betAmount === null) return; // User cancelled
         
-        const betAmount = parseInt(userInput);
+        const success = highLowGame.startGame(this.currentPlayer, betAmount);
         
-        if (isNaN(betAmount) || betAmount < minBet || betAmount > maxBet) {
-            this.showStreetMessage(`Invalid bet! Must be between $${minBet} and $${maxBet}`, 'error');
-            return null;
+        if (success.success) {
+            this.activeGame = highLowGame;
+            this.showGameInterface('High-Low Empire - Quick Cash Game');
+            this.renderHighLowUI();
+        } else {
+            this.showStreetMessage(`Yo, ${success.message}. Check your bankroll and try again!`, 'error');
+        }
+    }
+
+    startSlotsGame() {
+        // Initialize the game
+        const slotsGame = new DiamondHeistSlot();
+        
+        // Get bet amount from user
+        const betAmount = this.getBetAmount('Diamond Heist Slots', slotsGame.minBet, slotsGame.maxBet);
+        if (betAmount === null) return; // User cancelled
+        
+        // Slots doesn't need to initialize like other games, just set up UI
+        this.activeGame = slotsGame;
+        this.showGameInterface('Diamond Heist Slots - Hit the Jackpot');
+        this.renderSlotsUI(betAmount);
+    }
+
+    renderHighLowUI() {
+        const gameContent = document.getElementById('game-content');
+        if (!gameContent || !this.activeGame) return;
+
+        gameContent.innerHTML = `
+            <div class="highlow-interface">
+                <div class="game-status">
+                    <h3 class="status-title">High-Low Empire</h3>
+                    <div id="highlow-status" class="game-status-text">Predict if the next card will be higher or lower!</div>
+                </div>
+                
+                <div class="card-prediction-area">
+                    <!-- Current Card Display -->
+                    <div class="current-card-section">
+                        <h4 class="section-title">Current Card</h4>
+                        <div id="current-card-display" class="card-display">
+                            <div class="card-placeholder">Card will appear here</div>
+                        </div>
+                        <div id="current-card-value" class="card-value">Value: ?</div>
+                    </div>
+                    
+                    <!-- VS Section -->
+                    <div class="vs-section">
+                        <div class="vs-text">VS</div>
+                        <div class="next-card-label">Next Card</div>
+                    </div>
+                    
+                    <!-- Next Card Display -->
+                    <div class="next-card-section">
+                        <h4 class="section-title">Your Prediction</h4>
+                        <div id="next-card-display" class="card-display">
+                            <div class="prediction-placeholder">?</div>
+                        </div>
+                        <div id="prediction-hint" class="prediction-hint">Higher or Lower?</div>
+                    </div>
+                </div>
+                
+                <!-- Game Stats -->
+                <div class="game-stats-section">
+                    <div class="stat-item">
+                        <span class="stat-label">Streak:</span>
+                        <span id="current-streak" class="stat-value streak-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Total Winnings:</span>
+                        <span id="total-winnings" class="stat-value win-value">$0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Next Win:</span>
+                        <span id="potential-win" class="stat-value potential-value">$0</span>
+                    </div>
+                </div>
+                
+                <!-- Probability Hint -->
+                <div id="probability-section" class="probability-section">
+                    <h4 class="prob-title">Smart Play Analysis</h4>
+                    <div class="probability-bars">
+                        <div class="prob-bar higher-bar">
+                            <div class="prob-label">Higher</div>
+                            <div class="prob-fill-container">
+                                <div id="higher-fill" class="prob-fill"></div>
+                            </div>
+                            <div id="higher-percent" class="prob-percent">50%</div>
+                        </div>
+                        <div class="prob-bar lower-bar">
+                            <div class="prob-label">Lower</div>
+                            <div class="prob-fill-container">
+                                <div id="lower-fill" class="prob-fill"></div>
+                            </div>
+                            <div id="lower-percent" class="prob-percent">50%</div>
+                        </div>
+                    </div>
+                    <div id="smart-recommendation" class="smart-recommendation">
+                        Make your prediction based on the odds!
+                    </div>
+                </div>
+                
+                <!-- Game Controls -->
+                <div class="game-controls">
+                    <div class="betting-info">
+                        <span class="bet-amount">Current Bet: $<span id="current-bet">${this.activeGame.currentBet}</span></span>
+                        <span class="bankroll">Bankroll: $<span id="current-bankroll">${this.currentPlayer.empire.resources}</span></span>
+                    </div>
+                    
+                    <div class="prediction-buttons">
+                        <button id="predict-higher-btn" class="prediction-btn higher-btn">
+                            <span class="btn-icon">📈</span>
+                            <span class="btn-text">Higher</span>
+                        </button>
+                        <button id="predict-lower-btn" class="prediction-btn lower-btn">
+                            <span class="btn-icon">📉</span>
+                            <span class="btn-text">Lower</span>
+                        </button>
+                        <button id="cash-out-btn" class="cash-out-btn hidden">
+                            <span class="btn-icon">💰</span>
+                            <span class="btn-text">Cash Out</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Previous Cards -->
+                <div id="previous-cards-section" class="previous-cards-section hidden">
+                    <h4 class="cards-title">Card History</h4>
+                    <div id="previous-cards" class="previous-cards">
+                        <!-- Previous cards will appear here -->
+                    </div>
+                </div>
+                
+                <!-- Game Log -->
+                <div class="game-log">
+                    <h4 class="log-title">Game Events</h4>
+                    <div id="highlow-events" class="events-container">
+                        Welcome to High-Low Empire! Time to read the cards and secure the bag!
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Add High-Low specific styles
+        this.addHighLowStyles();
+        
+        // Set up event listeners
+        this.setupHighLowControls();
+        
+        // Update the display with initial game state
+        this.updateHighLowDisplay();
+    }
+
+    addHighLowStyles() {
+        // Add High-Low specific CSS styles
+        const style = document.createElement('style');
+        style.textContent = `
+            .highlow-interface {
+                background: linear-gradient(135deg, #1a1a1a 0%, #2d1b69 100%);
+                border-radius: 15px;
+                padding: 20px;
+                box-shadow: 0 10px 30px rgba(138, 43, 226, 0.3);
+            }
+            
+            .current-card-display {
+                background: linear-gradient(45deg, #ffd700, #ffed4e);
+                color: #000;
+                border-radius: 10px;
+                padding: 15px;
+                margin: 10px 0;
+                font-size: 1.8em;
+                text-align: center;
+                box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            }
+            
+            .prediction-buttons button {
+                background: linear-gradient(45deg, #8a2be2, #9932cc);
+                border: none;
+                color: white;
+                padding: 12px 25px;
+                margin: 0 10px;
+                border-radius: 8px;
+                font-weight: bold;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+            
+            .prediction-buttons button:hover {
+                background: linear-gradient(45deg, #9932cc, #8a2be2);
+                transform: translateY(-2px);
+                box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    renderSlotsUI(betAmount) {
+        const gameContent = document.getElementById('game-content');
+        if (!gameContent || !this.activeGame) return;
+
+        gameContent.innerHTML = `
+            <div class="slots-interface">
+                <div class="game-status">
+                    <h3 class="status-title">💎 Diamond Heist Slots 💎</h3>
+                    <div id="slots-status" class="game-status-text">Time to hit the ultimate jackpot! Spin to win!</div>
+                </div>
+                
+                <!-- Slot Machine -->
+                <div class="slot-machine">
+                    <!-- Jackpot Display -->
+                    <div class="jackpot-display">
+                        <h4 class="jackpot-title">PROGRESSIVE JACKPOT</h4>
+                        <div id="jackpot-amount" class="jackpot-amount">$${this.activeGame.jackpotAmount.toLocaleString()}</div>
+                    </div>
+                    
+                    <!-- Reels -->
+                    <div class="reels-container">
+                        ${[0, 1, 2, 3, 4].map(reel => `
+                            <div class="reel-column">
+                                <div id="reel-${reel}-0" class="reel-symbol">?</div>
+                                <div id="reel-${reel}-1" class="reel-symbol">?</div>
+                                <div id="reel-${reel}-2" class="reel-symbol">?</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <!-- Win Line Indicators -->
+                    <div class="payline-indicators">
+                        <div class="payline horizontal-1"></div>
+                        <div class="payline horizontal-2"></div>
+                        <div class="payline horizontal-3"></div>
+                        <div class="payline diagonal-1"></div>
+                        <div class="payline diagonal-2"></div>
+                    </div>
+                </div>
+                
+                <!-- Betting Controls -->
+                <div class="betting-controls">
+                    <div class="bet-section">
+                        <label class="bet-label">Bet Amount:</label>
+                        <div class="bet-controls">
+                            <button id="bet-minus" class="bet-btn">-</button>
+                            <span id="current-slots-bet" class="bet-display">$${betAmount}</span>
+                            <button id="bet-plus" class="bet-btn">+</button>
+                        </div>
+                        <button id="max-bet-btn" class="max-bet-btn">MAX BET</button>
+                    </div>
+                    
+                    <button id="spin-btn" class="spin-button">
+                        <span class="spin-text">SPIN TO WIN!</span>
+                    </button>
+                    
+                    <div class="game-info">
+                        <span class="bankroll">Bankroll: $<span id="slots-bankroll">${this.currentPlayer.empire.resources}</span></span>
+                        <span class="last-win">Last Win: $<span id="last-slots-win">0</span></span>
+                    </div>
+                </div>
+                
+                <!-- Paytable -->
+                <div class="paytable-section">
+                    <button id="paytable-toggle" class="paytable-toggle">View Paytable</button>
+                    <div id="paytable-content" class="paytable-content hidden">
+                        <h4 class="paytable-title">Symbol Payouts (per coin bet)</h4>
+                        <div class="paytable-grid">
+                            <div class="symbol-row">
+                                <span class="symbol">💵</span>
+                                <span class="payouts">2x - 6x - 20x</span>
+                            </div>
+                            <div class="symbol-row">
+                                <span class="symbol">🥇</span>
+                                <span class="payouts">3x - 9x - 30x</span>
+                            </div>
+                            <div class="symbol-row">
+                                <span class="symbol">🚗</span>
+                                <span class="payouts">4x - 12x - 40x</span>
+                            </div>
+                            <div class="symbol-row">
+                                <span class="symbol">💎</span>
+                                <span class="payouts">8x - 24x - 80x</span>
+                            </div>
+                            <div class="symbol-row">
+                                <span class="symbol">👑</span>
+                                <span class="payouts">10x - 30x - 100x</span>
+                            </div>
+                            <div class="symbol-row">
+                                <span class="symbol">🤴</span>
+                                <span class="payouts">20x - 60x - 200x</span>
+                            </div>
+                            <div class="symbol-row">
+                                <span class="symbol">💃</span>
+                                <span class="payouts">25x - 75x - 250x</span>
+                            </div>
+                            <div class="symbol-row special">
+                                <span class="symbol">🌟</span>
+                                <span class="payouts">WILD - Substitutes any symbol</span>
+                            </div>
+                            <div class="symbol-row special">
+                                <span class="symbol">🎰</span>
+                                <span class="payouts">SCATTER - 3+ triggers bonus</span>
+                            </div>
+                            <div class="symbol-row jackpot">
+                                <span class="symbol">💰</span>
+                                <span class="payouts">JACKPOT - 5 symbols = PROGRESSIVE!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Game Log -->
+                <div class="game-log">
+                    <h4 class="log-title">Spin Results</h4>
+                    <div id="slots-events" class="events-container">
+                        Welcome to Diamond Heist Slots! Let's hit that jackpot, player!
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Add slots-specific styles
+        this.addSlotsStyles();
+        
+        // Set up event listeners
+        this.setupSlotsControls(betAmount);
+    }
+
+    addSlotsStyles() {
+        const style = document.createElement('style');
+        style.textContent = `
+            .slots-interface {
+                background: linear-gradient(135deg, #1a0033 0%, #330066 50%, #1a0033 100%);
+                border-radius: 15px;
+                padding: 20px;
+                box-shadow: 0 15px 35px rgba(255, 215, 0, 0.3);
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .slots-interface::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+                pointer-events: none;
+            }
+            
+            .jackpot-display {
+                text-align: center;
+                background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+                border-radius: 15px;
+                padding: 15px;
+                margin-bottom: 20px;
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+                animation: jackpotPulse 2s ease-in-out infinite;
+            }
+            
+            @keyframes jackpotPulse {
+                0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
+                50% { transform: scale(1.02); box-shadow: 0 0 30px rgba(255, 215, 0, 0.8); }
+            }
+            
+            .jackpot-title {
+                color: #8B4513;
+                font-size: 1.2em;
+                font-weight: bold;
+                margin: 0;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            }
+            
+            .jackpot-amount {
+                color: #8B4513;
+                font-size: 2.5em;
+                font-weight: bold;
+                margin: 5px 0;
+                text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+                font-family: 'Arial Black', sans-serif;
+            }
+            
+            .reels-container {
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+                background: #000;
+                border-radius: 10px;
+                padding: 20px;
+                margin: 20px 0;
+                position: relative;
+                box-shadow: inset 0 0 20px rgba(255, 215, 0, 0.2);
+            }
+            
+            .reel-column {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                background: linear-gradient(180deg, #222, #111);
+                border-radius: 8px;
+                padding: 10px;
+                min-width: 80px;
+                border: 2px solid #444;
+            }
+            
+            .reel-symbol {
+                width: 60px;
+                height: 60px;
+                background: linear-gradient(45deg, #333, #555);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 2em;
+                color: #fff;
+                border: 2px solid #666;
+                transition: all 0.3s ease;
+                position: relative;
+            }
+            
+            .reel-symbol.winning {
+                background: linear-gradient(45deg, #ffd700, #ffed4e);
+                border-color: #ffd700;
+                box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+                animation: symbolWin 0.8s ease-in-out infinite alternate;
+            }
+            
+            @keyframes symbolWin {
+                from { transform: scale(1); }
+                to { transform: scale(1.1); }
+            }
+            
+            .betting-controls {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: rgba(0,0,0,0.3);
+                border-radius: 15px;
+                padding: 20px;
+                margin: 20px 0;
+            }
+            
+            .bet-section {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .bet-controls {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                background: #333;
+                border-radius: 8px;
+                padding: 5px;
+            }
+            
+            .bet-btn {
+                background: linear-gradient(45deg, #8a2be2, #9932cc);
+                border: none;
+                color: white;
+                width: 30px;
+                height: 30px;
+                border-radius: 4px;
+                font-weight: bold;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+            
+            .bet-btn:hover {
+                background: linear-gradient(45deg, #9932cc, #ba55d3);
+                transform: scale(1.1);
+            }
+            
+            .bet-display {
+                color: #ffd700;
+                font-size: 1.3em;
+                font-weight: bold;
+                min-width: 80px;
+                text-align: center;
+            }
+            
+            .spin-button {
+                background: linear-gradient(45deg, #ff4500, #ff6347, #ff4500);
+                border: none;
+                color: white;
+                padding: 15px 40px;
+                border-radius: 50px;
+                font-size: 1.3em;
+                font-weight: bold;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                box-shadow: 0 5px 15px rgba(255, 69, 0, 0.4);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+            
+            .spin-button:hover {
+                background: linear-gradient(45deg, #ff6347, #ff4500, #ff6347);
+                transform: translateY(-3px);
+                box-shadow: 0 8px 25px rgba(255, 69, 0, 0.6);
+            }
+            
+            .spin-button:active {
+                transform: translateY(-1px);
+            }
+            
+            .spin-button.spinning {
+                background: linear-gradient(45deg, #666, #888);
+                cursor: not-allowed;
+                animation: spin 1s linear infinite;
+            }
+            
+            @keyframes spin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+            
+            .max-bet-btn {
+                background: linear-gradient(45deg, #ffd700, #ffed4e);
+                border: none;
+                color: #8B4513;
+                padding: 8px 16px;
+                border-radius: 6px;
+                font-weight: bold;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+            
+            .max-bet-btn:hover {
+                background: linear-gradient(45deg, #ffed4e, #ffd700);
+                transform: scale(1.05);
+            }
+            
+            .paytable-section {
+                margin: 20px 0;
+            }
+            
+            .paytable-toggle {
+                background: linear-gradient(45deg, #4169e1, #6495ed);
+                border: none;
+                color: white;
+                padding: 10px 20px;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                width: 100%;
+            }
+            
+            .paytable-toggle:hover {
+                background: linear-gradient(45deg, #6495ed, #4169e1);
+            }
+            
+            .paytable-content {
+                background: rgba(0,0,0,0.8);
+                border-radius: 10px;
+                padding: 20px;
+                margin-top: 10px;
+                transition: all 0.3s ease;
+            }
+            
+            .paytable-grid {
+                display: grid;
+                gap: 8px;
+            }
+            
+            .symbol-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 8px;
+                background: rgba(255,255,255,0.1);
+                border-radius: 6px;
+            }
+            
+            .symbol-row.special {
+                background: rgba(138, 43, 226, 0.2);
+            }
+            
+            .symbol-row.jackpot {
+                background: rgba(255, 215, 0, 0.2);
+                font-weight: bold;
+            }
+            
+            .symbol-row .symbol {
+                font-size: 1.8em;
+            }
+            
+            .symbol-row .payouts {
+                color: #ffd700;
+                font-weight: bold;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    setupSlotsControls(initialBet) {
+        let currentBet = initialBet;
+        let isSpinning = false;
+        
+        // Get control elements
+        const betMinusBtn = document.getElementById('bet-minus');
+        const betPlusBtn = document.getElementById('bet-plus');
+        const maxBetBtn = document.getElementById('max-bet-btn');
+        const spinBtn = document.getElementById('spin-btn');
+        const paytableToggle = document.getElementById('paytable-toggle');
+        const paytableContent = document.getElementById('paytable-content');
+        const currentBetDisplay = document.getElementById('current-slots-bet');
+        const bankrollDisplay = document.getElementById('slots-bankroll');
+        const lastWinDisplay = document.getElementById('last-slots-win');
+        
+        // Bet amount controls
+        betMinusBtn?.addEventListener('click', () => {
+            if (isSpinning) return;
+            const newBet = Math.max(this.activeGame.minBet, currentBet - 5);
+            if (newBet !== currentBet) {
+                currentBet = newBet;
+                currentBetDisplay.textContent = `$${currentBet}`;
+            }
+        });
+        
+        betPlusBtn?.addEventListener('click', () => {
+            if (isSpinning) return;
+            const newBet = Math.min(this.activeGame.maxBet, Math.min(currentBet + 5, this.currentPlayer.empire.resources));
+            if (newBet !== currentBet) {
+                currentBet = newBet;
+                currentBetDisplay.textContent = `$${currentBet}`;
+            }
+        });
+        
+        maxBetBtn?.addEventListener('click', () => {
+            if (isSpinning) return;
+            currentBet = Math.min(this.activeGame.maxBet, this.currentPlayer.empire.resources);
+            currentBetDisplay.textContent = `$${currentBet}`;
+        });
+        
+        // Paytable toggle
+        paytableToggle?.addEventListener('click', () => {
+            paytableContent?.classList.toggle('hidden');
+            paytableToggle.textContent = paytableContent?.classList.contains('hidden') ? 'View Paytable' : 'Hide Paytable';
+        });
+        
+        // Main spin button
+        spinBtn?.addEventListener('click', async () => {
+            if (isSpinning) return;
+            
+            if (currentBet > this.currentPlayer.empire.resources) {
+                this.showStreetMessage(`Not enough bankroll! You need $${currentBet} but only have $${this.currentPlayer.empire.resources}`, 'error');
+                return;
+            }
+            
+            // Start spinning animation
+            isSpinning = true;
+            spinBtn.classList.add('spinning');
+            spinBtn.textContent = 'SPINNING...';
+            
+            // Animate the reels
+            this.animateSlotReels();
+            
+            // Wait for animation
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            // Spin the slots
+            const result = this.activeGame.spin(this.currentPlayer, currentBet);
+            
+            if (result.success) {
+                // Update reels with result
+                this.displaySlotResult(result);
+                
+                // Update UI displays
+                currentBetDisplay.textContent = `$${currentBet}`;
+                bankrollDisplay.textContent = this.currentPlayer.empire.resources.toLocaleString();
+                lastWinDisplay.textContent = result.totalWinnings.toLocaleString();
+                
+                // Update jackpot display
+                const jackpotDisplay = document.getElementById('jackpot-amount');
+                if (jackpotDisplay) {
+                    jackpotDisplay.textContent = `$${this.activeGame.jackpotAmount.toLocaleString()}`;
+                }
+                
+                // Show result message
+                this.showStreetMessage(result.message, result.totalWinnings > 0 ? 'success' : 'info');
+                
+                // Log the result
+                this.logSlotsEvent(result);
+                
+            } else {
+                this.showStreetMessage(result.message, 'error');
+            }
+            
+            // Stop spinning animation
+            isSpinning = false;
+            spinBtn.classList.remove('spinning');
+            spinBtn.textContent = 'SPIN TO WIN!';
+        });
+    }
+
+    animateSlotReels() {
+        // Animate each reel with random symbols
+        for (let reel = 0; reel < 5; reel++) {
+            for (let row = 0; row < 3; row++) {
+                const symbolElement = document.getElementById(`reel-${reel}-${row}`);
+                if (symbolElement) {
+                    const interval = setInterval(() => {
+                        const randomSymbol = this.getRandomSlotSymbol();
+                        symbolElement.textContent = randomSymbol;
+                    }, 100);
+                    
+                    // Stop animation after reel-specific time
+                    setTimeout(() => {
+                        clearInterval(interval);
+                    }, 800 + (reel * 200));
+                }
+            }
+        }
+    }
+
+    getRandomSlotSymbol() {
+        const symbols = ['💵', '🥇', '🚗', '💎', '👑', '🤴', '💃', '🌟', '🎰', '💰'];
+        return symbols[Math.floor(Math.random() * symbols.length)];
+    }
+
+    displaySlotResult(result) {
+        // Display the actual result
+        result.reels.forEach((reel, reelIndex) => {
+            reel.forEach((symbol, rowIndex) => {
+                const symbolElement = document.getElementById(`reel-${reelIndex}-${rowIndex}`);
+                if (symbolElement && this.activeGame.symbols[symbol]) {
+                    symbolElement.textContent = this.activeGame.symbols[symbol].name;
+                    
+                    // Highlight winning symbols
+                    const isWinning = result.winLines.some(line => 
+                        line.positions.some(pos => pos[1] === reelIndex && pos[0] === rowIndex)
+                    );
+                    
+                    if (isWinning) {
+                        symbolElement.classList.add('winning');
+                        setTimeout(() => {
+                            symbolElement.classList.remove('winning');
+                        }, 3000);
+                    }
+                }
+            });
+        });
+    }
+
+    logSlotsEvent(result) {
+        const eventsContainer = document.getElementById('slots-events');
+        if (!eventsContainer) return;
+        
+        let eventText = `Bet: $${result.totalWinnings > 0 ? result.netGain : result.netGain} | `;
+        
+        if (result.isJackpot) {
+            eventText += `🎰 JACKPOT! Won $${result.totalWinnings.toLocaleString()}!`;
+        } else if (result.isBigWin) {
+            eventText += `💰 BIG WIN! ${result.multiplier}x multiplier - $${result.totalWinnings.toLocaleString()}!`;
+        } else if (result.totalWinnings > 0) {
+            eventText += `💎 Win! ${result.multiplier}x - $${result.totalWinnings.toLocaleString()}`;
+        } else {
+            eventText += `Better luck next spin!`;
         }
         
-        if (betAmount > this.currentPlayer.empire.resources) {
-            this.showStreetMessage(`Not enough bankroll! You need $${betAmount} but only have $${this.currentPlayer.empire.resources}`, 'error');
-            return null;
-        }
+        const eventElement = document.createElement('div');
+        eventElement.className = 'event-message';
+        eventElement.textContent = eventText;
         
-        return betAmount;
+        eventsContainer.insertBefore(eventElement, eventsContainer.firstChild);
+        
+        // Keep only last 10 events
+        while (eventsContainer.children.length > 10) {
+            eventsContainer.removeChild(eventsContainer.lastChild);
+        }
     }
 
     renderBlackjackUI() {
