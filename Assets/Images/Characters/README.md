@@ -44,3 +44,4 @@ This folder contains character artwork and portraits for the main characters in 
 - Professional quality suitable for marketing materials
 - Scalable designs that work at multiple resolutions
 - Cultural sensitivity in character representation
+- 
