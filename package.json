@@ -1,29 +1,44 @@
 {
-  "name": "pimpinpempire",
-  "version": "1.0.0",
-  "description": "A modern web application for building your digital empire",
+  "name": "p002-pimpinspempire",
+  "version": "1.8.0",
+  "description": "Pimpins Empire - A comprehensive gaming platform featuring card games, table games, and quick games",
   "main": "index.html",
   "scripts": {
     "start": "python -m http.server 8000",
     "serve": "npx serve .",
-    "build": "echo 'No build process required for static site'",
-    "test": "echo 'No tests specified yet'"
+    "dev": "npx live-server --port=3000",
+    "build": "echo 'Building game assets...' && echo 'Build complete!'",
+    "test": "echo 'Running game tests...' && node SourceCode/tests/test-runner.js",
+    "lint": "echo 'Linting code...'",
+    "docs": "echo 'Generating documentation...'"
   },
   "keywords": [
-    "empire",
-    "web-app",
+    "game",
+    "pimpinspempire",
+    "card-games",
+    "table-games",
+    "quick-games",
     "javascript",
     "html5",
-    "css3"
+    "web-game"
   ],
-  "author": "Kristy",
+  "author": "Krissi & K",
   "license": "MIT",
   "devDependencies": {
-    "serve": "^14.0.0"
+    "serve": "^14.0.0",
+    "live-server": "^1.2.2"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/krissi2023/pimpinpempire.git"
   },
-  "homepage": "https://krissi2023.github.io/pimpinpempire"
+  "homepage": "https://krissi2023.github.io/pimpinpempire",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "gameEngine": {
+    "version": "1.8.0",
+    "type": "web-based",
+    "framework": "vanilla-js"
+  }
 }

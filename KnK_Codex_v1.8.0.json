@@ -1,0 +1,69 @@
+{
+  "project": {
+    "name": "P002_PimpinsPempire",
+    "version": "1.8.0",
+    "codexVersion": "v1.8.0",
+    "description": "Pimpins Empire - A comprehensive gaming platform featuring card games, table games, and quick games",
+    "author": "Krissi & K",
+    "lastUpdated": "2025-11-09",
+    "gameEngine": "JavaScript/Web-based"
+  },
+  "gameCategories": {
+    "cardGames": {
+      "description": "Traditional and custom card games",
+      "games": [
+        "KnK Draw",
+        "Blackjack",
+        "High Low"
+      ]
+    },
+    "tableGames": {
+      "description": "Board and table-based games",
+      "games": [
+        "TODO: Define table games"
+      ]
+    },
+    "quickGames": {
+      "description": "Fast-paced mini games",
+      "games": [
+        "TODO: Define quick games"
+      ]
+    }
+  },
+  "characters": {
+    "Diamond": {
+      "role": "Main character",
+      "description": "Central figure in the Diamond Heist storyline"
+    },
+    "PimpinDapaul": {
+      "role": "Protagonist",
+      "description": "The empire builder with full lore and origin story"
+    },
+    "Yago": {
+      "role": "Supporting character",
+      "description": "Key player in the heist narrative"
+    }
+  },
+  "storyArcs": {
+    "diamondHeist": {
+      "parts": [
+        "Part 1: Diamond",
+        "Part 2: PimpinDapaul", 
+        "Part 3: Yago"
+      ]
+    }
+  },
+  "technicalSpecs": {
+    "primaryLanguage": "JavaScript",
+    "platform": "Web Browser",
+    "dependencies": {
+      "core": ["HTML5", "CSS3", "ES6+"],
+      "optional": ["Node.js for development"]
+    }
+  },
+  "developmentStatus": {
+    "phase": "Alpha",
+    "completionPercentage": 15,
+    "nextMilestone": "Core game engine implementation"
+  }
+}
