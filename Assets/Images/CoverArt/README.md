@@ -7,12 +7,14 @@ This folder contains promotional and cover art for Pimpins Empire.
 ### PimpinsPempire_Cover.png (TODO)
 
 **Specifications:**
+
 - **Resolution:** 1920x1080 (16:9 ratio for web)
 - **Additional Sizes:** 512x512 (square), 1200x630 (social media)
 - **Format:** PNG with transparency support
 - **Style:** Neo-noir, urban empire aesthetic
 
 **Design Elements:**
+
 - Central figure representing the empire theme
 - Neon lighting and cityscape background
 - Playing cards, dice, or gaming elements
@@ -33,6 +35,7 @@ This folder contains promotional and cover art for Pimpins Empire.
 - App store listings and web presence
 - Loading screens and splash pages
 
-## Brand Consistency
+## Brand 
+Consistency
 
 All cover art should maintain consistent visual identity with the empire theme while being professional enough for wide distribution.

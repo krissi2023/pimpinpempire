@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pimpins Empire - The Ultimate Gaming Arcade</title>
+    <link rel="stylesheet" href="src/css/style.css">
+    <link rel="stylesheet" href="src/css/arcade-theme.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Bungee+Shade&family=Fredoka+One:wght@400&display=swap" rel="stylesheet">
+</head>
+<body class="arcade-body">
+    <!-- Neon Background Effects -->
+    <div class="neon-background">
+        <div class="neon-strip neon-strip-1"></div>
+        <div class="neon-strip neon-strip-2"></div>
+        <div class="neon-strip neon-strip-3"></div>
+    </div>
+
+    <!-- Main Arcade Interface -->
+    <div class="arcade-container">
+        <!-- Top Crown Header -->
+        <header class="empire-crown">
+            <div class="crown-jewels">
+                <div class="jewel jewel-diamond"></div>
+                <div class="jewel jewel-gold"></div>
+                <div class="jewel jewel-ruby"></div>
+            </div>
+            <h1 class="empire-title">
+                <span class="title-pimpin">Pimpin's</span>
+                <span class="title-empire">Empire</span>
+            </h1>
+            <div class="crown-subtitle">Where Kings & Queens Rule the Game</div>
+            
+            <!-- Player Status Display -->
+            <div id="player-status" class="player-status">
+                <div class="status-item">
+                    <span class="status-label">Level:</span>
+                    <span id="player-level" class="status-value gold-text">1</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Bankroll:</span>
+                    <span id="player-resources" class="status-value cash-green">$1,000</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Rep:</span>
+                    <span id="player-reputation" class="status-value diamond-blue">Fresh</span>
+                </div>
+                <div class="status-item audio-controls">
+                    <button id="audio-toggle" class="audio-btn" title="Toggle Audio">🎵</button>
+                    <span class="audio-info">Vibes: ON</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Gaming Floor -->
+        <main class="gaming-floor">
+            <!-- Welcome Section -->
+            <section class="welcome-lounge">
+                <h2 class="lounge-title">Welcome to the Dopest Arcade in the City</h2>
+                <p class="lounge-description">
+                    Step into the empire where every game is a hustle and every win builds your legend. 
+                    Choose your game, stack your paper, and show these streets who runs the block.
+                </p>
+                <div class="swagger-meter">
+                    <div class="swagger-fill"></div>
+                    <span class="swagger-text">Swagger Level: Fresh</span>
+                </div>
+            </section>
+
+            <!-- Game Selection Area -->
+            <section class="game-selection-zone">
+                <h2 class="zone-title">Choose Your Hustle</h2>
+                
+                <!-- Card Games Section -->
+                <div class="game-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">🃏</span>
+                        Card Games - Where Legends Are Made
+                    </h3>
+                    <div class="game-grid">
+                        <div class="game-card knk-draw-card" data-game="knk-draw">
+                            <div class="game-card-glow"></div>
+                            <div class="game-card-content">
+                                <h4 class="game-title">KnK Draw</h4>
+                                <p class="game-subtitle">The Original Hustle</p>
+                                <div class="game-stats">
+                                    <span class="game-difficulty">Difficulty: Smooth</span>
+                                    <span class="game-payout">Max Payout: 500 Coins</span>
+                                </div>
+                                <button class="play-button">Start the Draw</button>
+                            </div>
+                        </div>
+
+                        <div class="game-card blackjack-card" data-game="blackjack">
+                            <div class="game-card-glow"></div>
+                            <div class="game-card-content">
+                                <h4 class="game-title">Blackjack Royalty</h4>
+                                <p class="game-subtitle">Beat the House</p>
+                                <div class="game-stats">
+                                    <span class="game-difficulty">Difficulty: Skilled</span>
+                                    <span class="game-payout">Max Payout: 1000 Coins</span>
+                                </div>
+                                <button class="play-button">Beat the House</button>
+                            </div>
+                        </div>
+
+                        <div class="game-card high-low-card" data-game="high-low">
+                            <div class="game-card-glow"></div>
+                            <div class="game-card-content">
+                                <h4 class="game-title">High-Low Empire</h4>
+                                <p class="game-subtitle">Quick Cash Game</p>
+                                <div class="game-stats">
+                                    <span class="game-difficulty">Difficulty: Easy</span>
+                                    <span class="game-payout">Max Payout: 300 Coins</span>
+                                </div>
+                                <button class="play-button">Quick Cash</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Table Games Section -->
+                <div class="game-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">🎲</span>
+                        Table Games - Big Money Moves
+                    </h3>
+                    <div class="game-grid">
+                        <div class="game-card table-card" data-game="empire-board">
+                            <div class="game-card-glow"></div>
+                            <div class="game-card-content">
+                                <h4 class="game-title">Empire Board</h4>
+                                <p class="game-subtitle">Build Your Territory</p>
+                                <div class="game-stats">
+                                    <span class="game-difficulty">Difficulty: Strategic</span>
+                                    <span class="game-payout">Max Payout: 2000 Coins</span>
+                                </div>
+                                <button class="play-button coming-soon">Coming Soon</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Games Section -->
+                <div class="game-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">⚡</span>
+                        Quick Games - Fast Money, Fast Thrills
+                    </h3>
+                    <div class="game-grid">
+                        <div class="game-card quick-card" data-game="diamond-dash">
+                            <div class="game-card-glow"></div>
+                            <div class="game-card-content">
+                                <h4 class="game-title">Diamond Dash</h4>
+                                <p class="game-subtitle">Speed & Precision</p>
+                                <div class="game-stats">
+                                    <span class="game-difficulty">Difficulty: Lightning</span>
+                                    <span class="game-payout">Max Payout: 150 Coins</span>
+                                </div>
+                                <button class="play-button coming-soon">Coming Soon</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slot Machines Section -->
+                <div class="game-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">🎰</span>
+                        Slot Machines - Jackpot Paradise
+                    </h3>
+                    <div class="game-grid">
+                        <div class="game-card slots-card" data-game="slots">
+                            <div class="game-card-glow"></div>
+                            <div class="game-card-content">
+                                <h4 class="game-title">Diamond Heist Slots</h4>
+                                <p class="game-subtitle">Progressive Jackpot</p>
+                                <div class="game-stats">
+                                    <span class="game-difficulty">Difficulty: Luck</span>
+                                    <span class="game-payout">Progressive: $50,000+</span>
+                                </div>
+                                <button class="play-button">Spin to Win!</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Character Gallery -->
+            <section class="character-gallery">
+                <h2 class="gallery-title">Meet the Empire Legends</h2>
+                <div class="character-showcase">
+                    <div class="character-card diamond-character">
+                        <div class="character-portrait"></div>
+                        <h3 class="character-name">Diamond</h3>
+                        <p class="character-bio">"I see value where others see nothing. In my world, every move is calculated, every risk is an opportunity."</p>
+                        <div class="character-stats">
+                            <span class="stat-item">Strategy: Master</span>
+                            <span class="stat-item">Style: Flawless</span>
+                        </div>
+                    </div>
+
+                    <div class="character-card pimpindapaul-character">
+                        <div class="character-portrait"></div>
+                        <h3 class="character-name">PimpinDapaul</h3>
+                        <p class="character-bio">"Built this empire from the ground up. In my house, everybody eats, everybody wins, everybody shines."</p>
+                        <div class="character-stats">
+                            <span class="stat-item">Leadership: Legendary</span>
+                            <span class="stat-item">Vision: Infinite</span>
+                        </div>
+                    </div>
+
+                    <div class="character-card yago-character">
+                        <div class="character-portrait"></div>
+                        <h3 class="character-name">Yago</h3>
+                        <p class="character-bio">"I connect worlds, bridge gaps, and make the impossible happen. Your success is my masterpiece."</p>
+                        <div class="character-stats">
+                            <span class="stat-item">Connection: Elite</span>
+                            <span class="stat-item">Innovation: Supreme</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Game Interface (Hidden by default) -->
+        <div id="game-interface" class="game-interface hidden">
+            <div class="game-header">
+                <h2 id="current-game-title" class="current-game-title"></h2>
+                <button id="back-to-arcade" class="back-button">Back to Arcade</button>
+            </div>
+            <div id="game-content" class="game-content">
+                <!-- Game-specific content will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="empire-footer">
+            <div class="footer-content">
+                <div class="footer-motto">
+                    "In this empire, we don't just play games - we build legends."
+                </div>
+                <div class="footer-credits">
+                    <span>&copy; 2025 Pimpins Empire</span>
+                    <span>Created by Krissi & K</span>
+                    <span>Version 1.8.0</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Audio Controls -->
+    <div class="audio-controls">
+        <button id="audio-toggle" class="audio-toggle">🎵</button>
+        <div class="audio-info">Vibes: ON</div>
+        <button id="help-toggle" class="help-toggle" title="Keyboard Shortcuts">⌨️</button>
+    </div>
+
+    <!-- Keyboard Shortcuts Help Modal -->
+    <div id="help-modal" class="help-modal hidden">
+        <div class="help-content">
+            <div class="help-header">
+                <h3>🎮 Empire Controls & Shortcuts</h3>
+                <button id="close-help" class="close-help">✕</button>
+            </div>
+            <div class="help-sections">
+                <div class="help-section">
+                    <h4>🎯 General Controls</h4>
+                    <div class="shortcut-item">
+                        <span class="key">ESC</span>
+                        <span class="action">Back to Arcade</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="key">M</span>
+                        <span class="action">Toggle Audio</span>
+                    </div>
+                </div>
+                
+                <div class="help-section">
+                    <h4>🎲 Game Controls</h4>
+                    <div class="shortcut-item">
+                        <span class="key">SPACE</span>
+                        <span class="action">Draw Cards (KnK Draw)</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span class="key">ENTER</span>
+                        <span class="action">Confirm Action</span>
+                    </div>
+                </div>
+                
+                <div class="help-section">
+                    <h4>💎 Pro Tips</h4>
+                    <p class="tip">• Click character portraits to learn their backstory</p>
+                    <p class="tip">• Your swagger level increases with wins and gameplay</p>
+                    <p class="tip">• Empire resources grow based on your performance</p>
+                    <p class="tip">• Each game has unique strategies - master them all!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">👑</div>
+            <h2 class="loading-text">Loading Your Empire...</h2>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <p class="loading-tip">Preparing the dopest gaming experience...</p>
+        </div>
+    </div>
+
+    <!-- Scripts (loaded in dependency order) -->
+    <!-- Core game engine dependencies -->
+    <script src="SourceCode/CardManager.js"></script>
+    <script src="SourceCode/Player.js"></script>
+    <script src="SourceCode/CardGames/KnKDrawGame.js"></script>
+    <script src="SourceCode/CardGames/BlackjackGame.js"></script>
+    <script src="SourceCode/CardGames/HighLowGame.js"></script>
+    <script src="SourceCode/SlotGames/DiamondHeistSlot.js"></script>
+    <script src="SourceCode/GameCore.js"></script>
+    
+    <!-- Audio system -->
+    <script src="src/js/AudioManager.js"></script>
+    
+    <!-- Arcade UI and initialization -->
+    <script src="src/js/arcade-ui.js"></script>
+    
+    <!-- Initialize the game engine and arcade -->
+    <script>
+        // Initialize game engine on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🎮 Initializing Pimpins Empire Game Engine...');
+            
+            // Create the main game engine instance
+            window.gameEngine = new PimpinsPempireGameEngine();
+            
+            // Give it a moment to set up, then initialize arcade UI
+            setTimeout(() => {
+                if (window.ArcadeUI && !window.arcadeUI) {
+                    console.log('🏛️ Starting up the arcade with that urban swagger...');
+                    window.arcadeUI = new ArcadeUI();
+                    window.arcadeUI.startAutoSave();
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>

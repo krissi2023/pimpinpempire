@@ -1,0 +1,18 @@
+2025-11-09 23:33:01.198 [warning] C:\Users\krist\.ssh\config: ENOENT: no such file or directory, open 'C:\Users\krist\.ssh\config'
+2025-11-09 23:33:01.198 [info] [Activation] Extension version: 0.120.2
+2025-11-09 23:33:01.198 [info] [Authentication] Creating hub for .com
+2025-11-09 23:33:01.540 [info] [Activation] Looking for git repository
+2025-11-09 23:33:01.540 [info] [Activation] Found 0 repositories during activation
+2025-11-09 23:33:01.540 [info] [Activation] Git repository found, initializing review manager and pr tree view.
+2025-11-09 23:33:01.547 [info] [GitAPI] Registering git provider
+2025-11-09 23:33:01.803 [info] [Activation] Git initialization state changed: state=initialized
+2025-11-09 23:33:01.803 [info] [Review+0] Validate state in progress
+2025-11-09 23:33:01.803 [info] [Review+0] Validating state...
+2025-11-09 23:33:01.960 [info] [FolderRepositoryManager+0] Found GitHub remote for folder c:\Users\krist\Documents\GitHub\pimpinpempire
+2025-11-09 23:33:02.210 [info] [Activation] Repo state for file:///c%3A/Users/krist/Documents/GitHub/pimpinpempire changed.
+2025-11-09 23:33:02.210 [info] [Activation] Repo file:///c%3A/Users/krist/Documents/GitHub/pimpinpempire has already been setup.
+2025-11-09 23:33:02.685 [info] [FolderRepositoryManager+0] Trying to use globalState for assignableUsers.
+2025-11-09 23:33:02.958 [info] [Review+0] No matching pull request metadata found locally for current branch main
+2025-11-09 23:33:03.029 [info] [FolderRepositoryManager+0] Using globalState assignableUsers for 1.
+2025-11-09 23:33:03.742 [info] [Review+0] No matching pull request metadata found on GitHub for current branch main
+2025-11-09 23:33:03.968 [info] [FolderRepositoryManager+0] Using in-memory cached assignable users.

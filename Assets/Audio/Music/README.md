@@ -17,6 +17,7 @@ This folder contains background music and theme songs for Pimpins Empire.
 - **Tension_Build.mp3** (TODO) - Suspenseful music for high-stakes moments
 
 ### Character Themes
+
 - **PimpinDapaul_Theme.mp3** (TODO) - Character-specific music
 - **Diamond_Theme.mp3** (TODO) - Character-specific music
 - **Yago_Theme.mp3** (TODO) - Character-specific music

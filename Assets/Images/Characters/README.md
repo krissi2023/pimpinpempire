@@ -5,6 +5,7 @@ This folder contains character artwork and portraits for the main characters in 
 ## Main Characters
 
 ### Diamond.png (TODO)
+
 - **Description:** Portrait of Diamond character from the heist storyline
 - **Style:** Noir-inspired, mysterious and sophisticated
 - **Format:** PNG with transparency
@@ -12,6 +13,7 @@ This folder contains character artwork and portraits for the main characters in 
 - **Usage:** Character selection, story cutscenes, profile avatars
 
 ### PimpinDapaul.png (TODO)  
+
 - **Description:** Portrait of the main protagonist empire builder
 - **Style:** Charismatic leader, stylish and confident
 - **Format:** PNG with transparency
@@ -19,6 +21,7 @@ This folder contains character artwork and portraits for the main characters in 
 - **Usage:** Main character representation, story mode, empire management
 
 ### Yago_Emoji.png (TODO)
+
 - **Description:** Emoji-style representation of Yago character
 - **Style:** Modern, expressive, bridge between worlds aesthetic
 - **Format:** PNG with transparency
@@ -28,11 +31,13 @@ This folder contains character artwork and portraits for the main characters in 
 ## Character Variations
 
 ### Expression Sets
+
 - **Diamond_Expressions.png** (TODO) - Multiple facial expressions
 - **PimpinDapaul_Expressions.png** (TODO) - Various moods and reactions
 - **Yago_Expressions.png** (TODO) - Emoji-style expression variants
 
 ### Action Poses
+
 - **Diamond_Action.png** (TODO) - Dynamic poses for story scenes
 - **PimpinDapaul_Action.png** (TODO) - Leadership and gaming poses
 - **Yago_Action.png** (TODO) - Bridge-building and networking poses
@@ -44,4 +49,4 @@ This folder contains character artwork and portraits for the main characters in 
 - Professional quality suitable for marketing materials
 - Scalable designs that work at multiple resolutions
 - Cultural sensitivity in character representation
-- 
+-
